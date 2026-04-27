@@ -1,0 +1,44 @@
+change_request_id: CR-2026-0001
+title: Expand AI autonomy for low-risk scheduling tasks
+requestor: operations_team
+date_submitted: 2026-04-27
+description: >
+  Permit the AI system to execute low-risk scheduling actions without prior human approval,
+  while preserving notice, logging, and human override.
+reason_for_change: >
+  Reliability metrics and audit history indicate the system may safely move from
+  supervised execution to limited autonomy in this narrow domain.
+affected_components:
+  - policy_engine
+  - boundary_map
+  - trust_index
+  - audit_log
+current_boundary: supervised_execution
+proposed_boundary: limited_autonomy
+trust_impact:
+  expected_change: increase
+  rationale: "Reduces friction while preserving transparency and override."
+risk_impact:
+  level: moderate
+  mitigation:
+    - human override remains available
+    - 30-day monitoring period
+    - rollback if incident threshold exceeded
+legal_impact:
+  review_required: true
+  notes: "Confirm compliance with user consent and notification obligations."
+covenant_impact:
+  review_required: true
+  notes: "Preserves dignity by maintaining notice, recourse, and override."
+evidence:
+  - trust-index-report-0427.json
+  - audit-summary-q2.md
+proposed_implementation:
+  - update autonomy threshold in policy engine
+  - notify affected users
+  - log all autonomous scheduling actions
+  - conduct review after 30 days
+rollback_plan:
+  trigger: "severity-weighted incident rate exceeds approved threshold"
+  action: "return to supervised_execution boundary state"
+status: submitted
